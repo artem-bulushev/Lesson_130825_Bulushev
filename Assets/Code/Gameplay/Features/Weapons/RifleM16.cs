@@ -32,6 +32,6 @@ namespace Code.Gameplay.Features.Weapons
          bulletInstance.SetDirection(transform.forward, _bulletSpeed);
             _audioSource.PlayOneShot(_clip);
             _audioMixerGroup.audioMixer.SetFloat("VolumeShooting", Random.Range(0, 5));
-        }
+      }
    }
 }

@@ -17,7 +17,7 @@ namespace Code.Gameplay.Features.Character.ComponentDriven
         [SerializeField] private AudioMixer _audioMixer;
         [SerializeField] private AudioMixerGroup _audioMixerGroup;
 
-        private Vector3 _velocity;
+      private Vector3 _velocity;
       private bool _isGrounded;
 
 
@@ -29,24 +29,27 @@ namespace Code.Gameplay.Features.Character.ComponentDriven
 
       private void ProcessJump()
       {
-         if (_inputService.IsJumpBtnUp())
-            if (_isGrounded)
-                {
-                    Jump();
-                    _audioSource.PlayOneShot(_clip);
-                    _audioMixerGroup.audioMixer.SetFloat("VolumeBounce", Random.Range(-20, 0));
-                }
-               
-            else
-               _velocity.y += _gravity * Time.deltaTime;
+         if (_inputService.IsJumpBtnUp() && _isGrounded) //хорошее объединение, мне нравитс€
+            {
+                Jump();
+                _audioMixerGroup.audioMixer.SetFloat("VolumeBounce", Random.Range(-20, 0));
+                _audioSource.PlayOneShot(_clip);
+            }
+                    
          else
-            _velocity.y += _gravity * Time.deltaTime;
-         
-         _characterController.Move(_velocity * Time.deltaTime);
-      }
+            {
+                _velocity.y += _gravity * Time.deltaTime;
+            }
 
-      private void CheckIsGrounded() => 
-         _isGrounded = Physics.CheckSphere(_groundCheck.position, 0.3f, _groundLayer);
+            _characterController.Move(_velocity * Time.deltaTime);
+            //_characterController это приватные методы, предлагаете сделать их публичными дл€ двух скриптов?
+            //пока плохо представл€ю это себе из-за недостатка опыта
+        }
+
+        private void CheckIsGrounded()
+        {
+            _isGrounded = Physics.CheckSphere(_groundCheck.position, 0.3f, _groundLayer);
+        }
 
       private void Jump()
       {
